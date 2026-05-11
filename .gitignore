@@ -1,0 +1,45 @@
+# Daily Routine iOS App
+
+## macOS / Xcode
+.DS_Store
+*.xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+build/
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.hmap
+*.app
+*.framework
+*.o
+*.d
+*.swp
+
+# Swift Package Manager
+.build/
+Packages/
+Package.resolved
+
+# Misc
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xccheckout
+*.xcscmblueprint
+
+# CocoaPods (if used)
+Pods/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Local
+.env
+*.log

@@ -1,0 +1,73 @@
+/* Tabs */
+"tab_dashboard" = "Dashboard";
+"tab_timeline" = "Timeline";
+"tab_weekly" = "Weekly";
+"tab_analytics" = "Analytics";
+"tab_calories" = "Calories";
+"tab_settings" = "Settings";
+
+/* Dashboard */
+"dashboard_title" = "Dashboard";
+"today_schedule" = "Today's Schedule";
+"current_activity" = "Current Activity";
+"next_activity" = "Next Activity";
+"completion" = "Completion";
+"free_time" = "Free Time";
+"check_in" = "Check In";
+"check_out" = "Check Out";
+
+/* Quick Actions */
+"start" = "Start";
+"pause" = "Pause";
+"resume" = "Resume";
+"skip" = "Skip";
+"complete" = "Complete";
+"extend" = "Extend";
+
+/* Analytics */
+"total_hours" = "Total Hours";
+"completion_rate" = "Completion Rate";
+"streak" = "Streak";
+"focus_score" = "Focus Score";
+"weekly_overview" = "Weekly Overview";
+"monthly_distribution" = "Monthly Distribution";
+
+/* Settings */
+"settings_language" = "Language";
+"settings_notifications" = "Notifications";
+"settings_categories" = "Categories";
+"settings_data" = "Data";
+"settings_about" = "About";
+"reset_data" = "Reset All Data";
+"version" = "Version";
+
+/* Activities */
+"activity_sleep" = "Sleep";
+"activity_morning_routine" = "Morning Routine";
+"activity_gym_running" = "Gym / Running";
+"activity_em" = "EM";
+"activity_commute" = "Commute";
+"activity_work" = "Work";
+"activity_work_lunch" = "Work / Lunch";
+"activity_freelancer" = "Freelancer";
+"activity_master_degree" = "Master Degree";
+"activity_ncp_genai" = "NCP GenAI";
+"activity_hsk" = "HSK";
+"activity_evening_routine" = "Evening Routine";
+"activity_dinner" = "Dinner";
+"activity_console_relax" = "Console / Relax";
+
+/* Calorie */
+"calories_title" = "Calorie Tracker";
+"consumed" = "Consumed";
+"burned" = "Burned";
+"net" = "Net";
+"add_entry" = "Add Entry";
+
+/* General */
+"today" = "Today";
+"cancel" = "Cancel";
+"save" = "Save";
+"delete" = "Delete";
+"edit" = "Edit";
+"done" = "Done";

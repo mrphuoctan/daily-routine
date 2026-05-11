@@ -1,0 +1,73 @@
+/* Tabs */
+"tab_dashboard" = "仪表盘";
+"tab_timeline" = "时间线";
+"tab_weekly" = "周历";
+"tab_analytics" = "统计";
+"tab_calories" = "卡路里";
+"tab_settings" = "设置";
+
+/* Dashboard */
+"dashboard_title" = "仪表盘";
+"today_schedule" = "今日日程";
+"current_activity" = "当前活动";
+"next_activity" = "下一活动";
+"completion" = "完成度";
+"free_time" = "空闲时间";
+"check_in" = "签到";
+"check_out" = "签退";
+
+/* Quick Actions */
+"start" = "开始";
+"pause" = "暂停";
+"resume" = "继续";
+"skip" = "跳过";
+"complete" = "完成";
+"extend" = "延长";
+
+/* Analytics */
+"total_hours" = "总时长";
+"completion_rate" = "完成率";
+"streak" = "连续天数";
+"focus_score" = "专注分数";
+"weekly_overview" = "周概览";
+"monthly_distribution" = "月度分布";
+
+/* Settings */
+"settings_language" = "语言";
+"settings_notifications" = "通知";
+"settings_categories" = "分类";
+"settings_data" = "数据";
+"settings_about" = "关于";
+"reset_data" = "重置所有数据";
+"version" = "版本";
+
+/* Activities */
+"activity_sleep" = "睡眠";
+"activity_morning_routine" = "晨间习惯";
+"activity_gym_running" = "健身 / 跑步";
+"activity_em" = "EM";
+"activity_commute" = "通勤";
+"activity_work" = "工作";
+"activity_work_lunch" = "工作 / 午餐";
+"activity_freelancer" = "自由职业";
+"activity_master_degree" = "硕士学位";
+"activity_ncp_genai" = "NCP GenAI";
+"activity_hsk" = "HSK";
+"activity_evening_routine" = "晚间习惯";
+"activity_dinner" = "晚餐";
+"activity_console_relax" = "游戏 / 放松";
+
+/* Calorie */
+"calories_title" = "卡路里追踪";
+"consumed" = "摄入";
+"burned" = "消耗";
+"net" = "净值";
+"add_entry" = "添加记录";
+
+/* General */
+"today" = "今天";
+"cancel" = "取消";
+"save" = "保存";
+"delete" = "删除";
+"edit" = "编辑";
+"done" = "完成";

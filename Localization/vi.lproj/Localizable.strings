@@ -1,0 +1,73 @@
+/* Tabs */
+"tab_dashboard" = "Tổng quan";
+"tab_timeline" = "Lịch trình";
+"tab_weekly" = "Tuần";
+"tab_analytics" = "Thống kê";
+"tab_calories" = "Calo";
+"tab_settings" = "Cài đặt";
+
+/* Dashboard */
+"dashboard_title" = "Tổng quan";
+"today_schedule" = "Lịch trình hôm nay";
+"current_activity" = "Hoạt động hiện tại";
+"next_activity" = "Hoạt động tiếp theo";
+"completion" = "Hoàn thành";
+"free_time" = "Thời gian rảnh";
+"check_in" = "Bắt đầu";
+"check_out" = "Kết thúc";
+
+/* Quick Actions */
+"start" = "Bắt đầu";
+"pause" = "Tạm dừng";
+"resume" = "Tiếp tục";
+"skip" = "Bỏ qua";
+"complete" = "Hoàn thành";
+"extend" = "Kéo dài";
+
+/* Analytics */
+"total_hours" = "Tổng giờ";
+"completion_rate" = "Tỷ lệ hoàn thành";
+"streak" = "Chuỗi ngày";
+"focus_score" = "Điểm tập trung";
+"weekly_overview" = "Tổng quan tuần";
+"monthly_distribution" = "Phân bổ tháng";
+
+/* Settings */
+"settings_language" = "Ngôn ngữ";
+"settings_notifications" = "Thông báo";
+"settings_categories" = "Danh mục";
+"settings_data" = "Dữ liệu";
+"settings_about" = "Giới thiệu";
+"reset_data" = "Xóa tất cả dữ liệu";
+"version" = "Phiên bản";
+
+/* Activities */
+"activity_sleep" = "Ngủ";
+"activity_morning_routine" = "Thói quen sáng";
+"activity_gym_running" = "Gym / Chạy bộ";
+"activity_em" = "EM";
+"activity_commute" = "Di chuyển";
+"activity_work" = "Làm việc";
+"activity_work_lunch" = "Làm việc / Ăn trưa";
+"activity_freelancer" = "Freelancer";
+"activity_master_degree" = "Thạc sĩ";
+"activity_ncp_genai" = "NCP GenAI";
+"activity_hsk" = "HSK";
+"activity_evening_routine" = "Thói quen tối";
+"activity_dinner" = "Ăn tối";
+"activity_console_relax" = "Giải trí / Thư giãn";
+
+/* Calorie */
+"calories_title" = "Theo dõi Calo";
+"consumed" = "Nạp vào";
+"burned" = "Đốt cháy";
+"net" = "Ròng";
+"add_entry" = "Thêm mục";
+
+/* General */
+"today" = "Hôm nay";
+"cancel" = "Hủy";
+"save" = "Lưu";
+"delete" = "Xóa";
+"edit" = "Sửa";
+"done" = "Xong";
