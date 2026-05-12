@@ -5,6 +5,9 @@
 "tab_analytics" = "统计";
 "tab_calories" = "卡路里";
 "tab_settings" = "设置";
+"tab_more" = "更多";
+"tab_history" = "历史";
+"tab_schedule_editor" = "日程编辑";
 
 /* Dashboard */
 "dashboard_title" = "仪表盘";

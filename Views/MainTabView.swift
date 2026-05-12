@@ -34,20 +34,54 @@ struct MainTabView: View {
                 }
                 .tag(3)
             
-            CalorieView()
+            MoreView()
                 .tabItem {
-                    Image(systemName: "flame.fill")
-                    Text(localizationService.localized("tab_calories"))
+                    Image(systemName: "ellipsis.circle.fill")
+                    Text(localizationService.localized("tab_more"))
                 }
                 .tag(4)
-            
-            SettingsView()
-                .tabItem {
-                    Image(systemName: "gearshape.fill")
-                    Text(localizationService.localized("tab_settings"))
-                }
-                .tag(5)
         }
         .tint(Color.theme.primary)
+    }
+}
+
+// MARK: - More View (hub for Calories, History, Settings)
+struct MoreView: View {
+    @EnvironmentObject var localizationService: LocalizationService
+    
+    var body: some View {
+        NavigationStack {
+            List {
+                NavigationLink {
+                    CalorieView()
+                } label: {
+                    Label(localizationService.localized("tab_calories"), systemImage: "flame.fill")
+                        .foregroundStyle(Color.theme.accent)
+                }
+                
+                NavigationLink {
+                    ActivityHistoryView()
+                } label: {
+                    Label(localizationService.localized("tab_history"), systemImage: "clock.arrow.circlepath")
+                        .foregroundStyle(Color.theme.primary)
+                }
+                
+                NavigationLink {
+                    ScheduleEditorView()
+                } label: {
+                    Label(localizationService.localized("tab_schedule_editor"), systemImage: "pencil.and.list.clipboard")
+                        .foregroundStyle(Color.theme.success)
+                }
+                
+                NavigationLink {
+                    SettingsView()
+                } label: {
+                    Label(localizationService.localized("tab_settings"), systemImage: "gearshape.fill")
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .navigationTitle(localizationService.localized("tab_more"))
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }

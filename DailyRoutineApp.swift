@@ -5,6 +5,7 @@ import SwiftData
 struct DailyRoutineApp: App {
     @StateObject private var localizationService = LocalizationService.shared
     @StateObject private var timerService = TimerService.shared
+    @AppStorage("app_color_scheme") private var colorSchemeRaw: String = "system"
     
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -29,11 +30,20 @@ struct DailyRoutineApp: App {
         }
     }()
     
+    private var preferredScheme: ColorScheme? {
+        switch colorSchemeRaw {
+        case "dark": return .dark
+        case "light": return .light
+        default: return nil // system
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             MainTabView()
                 .environmentObject(localizationService)
                 .environmentObject(timerService)
+                .preferredColorScheme(preferredScheme)
                 .onAppear {
                     DataSeeder.seedIfNeeded(modelContext: sharedModelContainer.mainContext)
                 }

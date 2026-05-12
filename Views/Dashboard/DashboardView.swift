@@ -8,6 +8,9 @@ struct DashboardView: View {
     @State private var viewModel = DashboardViewModel()
     @State private var showingActivityDetail = false
     @State private var selectedSchedule: DailySchedule?
+    @State private var showingExtendSheet = false
+    @State private var showingAdjustSheet = false
+    @State private var adjustTarget: DailySchedule?
     
     var body: some View {
         NavigationStack {
@@ -42,7 +45,15 @@ struct DashboardView: View {
                             onCheckOut: { viewModel.checkOut(schedule: current); _ = timerService.stop() },
                             onSkip: { viewModel.skipActivity(schedule: current) },
                             onPause: { timerService.pause() },
-                            onResume: { timerService.resume() }
+                            onResume: { timerService.resume() },
+                            onExtend: {
+                                adjustTarget = current
+                                showingExtendSheet = true
+                            },
+                            onAdjustTime: {
+                                adjustTarget = current
+                                showingAdjustSheet = true
+                            }
                         )
                     }
                     
@@ -66,6 +77,20 @@ struct DashboardView: View {
         }
         .onAppear {
             viewModel.loadData(modelContext: modelContext)
+        }
+        .sheet(isPresented: $showingExtendSheet) {
+            if let target = adjustTarget {
+                ExtendActivitySheet(schedule: target) {
+                    viewModel.loadData(modelContext: modelContext)
+                }
+            }
+        }
+        .sheet(isPresented: $showingAdjustSheet) {
+            if let target = adjustTarget {
+                ManualTimeAdjustSheet(schedule: target) {
+                    viewModel.loadData(modelContext: modelContext)
+                }
+            }
         }
     }
     
@@ -165,5 +190,109 @@ struct DashboardView: View {
             }
         }
         .font(.title3)
+    }
+}
+
+// MARK: - Extend Activity Sheet
+struct ExtendActivitySheet: View {
+    @Environment(\.dismiss) private var dismiss
+    let schedule: DailySchedule
+    let onDone: () -> Void
+    @State private var extendMinutes: Int = 15
+    
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 24) {
+                Image(systemName: "plus.circle.fill")
+                    .font(.system(size: 48))
+                    .foregroundStyle(Color(hex: "AF52DE"))
+                
+                Text("Extend \(schedule.activity.rawValue)")
+                    .font(.title3).fontWeight(.bold)
+                
+                Text("Current: \(schedule.timeRangeString)")
+                    .font(.subheadline).foregroundStyle(.secondary)
+                
+                Stepper("Add \(extendMinutes) minutes", value: $extendMinutes, in: 5...120, step: 5)
+                    .padding(.horizontal, 40)
+                
+                Button {
+                    schedule.plannedEndTime = schedule.plannedEndTime.addingTimeInterval(Double(extendMinutes) * 60)
+                    onDone()
+                    dismiss()
+                } label: {
+                    Text("Extend by \(extendMinutes)m")
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                        .background(Color(hex: "AF52DE"))
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                }
+                .padding(.horizontal, 40)
+                
+                Spacer()
+            }
+            .padding(.top, 40)
+            .navigationTitle("Extend Activity")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Manual Time Adjustment Sheet
+struct ManualTimeAdjustSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    let schedule: DailySchedule
+    let onDone: () -> Void
+    @State private var actualStart: Date = Date()
+    @State private var actualEnd: Date = Date()
+    
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Activity") {
+                    HStack {
+                        Image(systemName: schedule.activity.icon)
+                            .foregroundStyle(schedule.activity.color)
+                        Text(schedule.activity.rawValue).fontWeight(.medium)
+                    }
+                }
+                
+                Section("Actual Time") {
+                    DatePicker("Start", selection: $actualStart, displayedComponents: .hourAndMinute)
+                    DatePicker("End", selection: $actualEnd, displayedComponents: .hourAndMinute)
+                }
+                
+                Section("Planned") {
+                    Text(schedule.timeRangeString)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .navigationTitle("Adjust Time")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        schedule.activityLog?.actualStartTime = actualStart
+                        schedule.activityLog?.actualEndTime = actualEnd
+                        onDone()
+                        dismiss()
+                    }
+                }
+            }
+            .onAppear {
+                actualStart = schedule.activityLog?.actualStartTime ?? Date()
+                actualEnd = schedule.activityLog?.actualEndTime ?? Date()
+            }
+        }
     }
 }

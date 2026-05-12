@@ -7,7 +7,19 @@ struct CalorieEntryForm: View {
     @State private var isConsumed = true
     @State private var note = ""
     
+    var existing: CalorieEntry?
     var onSave: (String, Double, Bool, String) -> Void
+    
+    init(existing: CalorieEntry? = nil, onSave: @escaping (String, Double, Bool, String) -> Void) {
+        self.existing = existing
+        self.onSave = onSave
+        if let e = existing {
+            _name = State(initialValue: e.name)
+            _caloriesText = State(initialValue: String(Int(e.calories)))
+            _isConsumed = State(initialValue: e.isConsumed)
+            _note = State(initialValue: e.note)
+        }
+    }
     
     var body: some View {
         NavigationStack {
@@ -31,8 +43,7 @@ struct CalorieEntryForm: View {
                     quickAddButtons
                 }
             }
-            .navigationTitle("Add Calorie Entry")
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(existing == nil ? "Add Calorie Entry" : "Edit Calorie Entry")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

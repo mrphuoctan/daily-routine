@@ -5,6 +5,9 @@
 "tab_analytics" = "Thống kê";
 "tab_calories" = "Calo";
 "tab_settings" = "Cài đặt";
+"tab_more" = "Thêm";
+"tab_history" = "Lịch sử";
+"tab_schedule_editor" = "Chỉnh lịch";
 
 /* Dashboard */
 "dashboard_title" = "Tổng quan";

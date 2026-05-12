@@ -5,6 +5,9 @@
 "tab_analytics" = "Analytics";
 "tab_calories" = "Calories";
 "tab_settings" = "Settings";
+"tab_more" = "More";
+"tab_history" = "History";
+"tab_schedule_editor" = "Schedule Editor";
 
 /* Dashboard */
 "dashboard_title" = "Dashboard";

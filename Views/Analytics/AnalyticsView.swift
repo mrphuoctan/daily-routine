@@ -30,6 +30,18 @@ struct AnalyticsView: View {
                         monthlyChartSection
                     }
                     
+                    // Planned vs Actual
+                    plannedVsActualSection
+                    
+                    // Daily Timeline Chart
+                    dailyTimelineChart
+                    
+                    // Activity Heatmap
+                    activityHeatmap
+                    
+                    // Sleep Consistency
+                    sleepConsistencySection
+                    
                     // Category Breakdown
                     categoryBreakdown
                 }
@@ -153,6 +165,150 @@ struct AnalyticsView: View {
         .padding(.horizontal, AppConstants.screenPadding)
     }
     
+    // MARK: - Planned vs Actual Chart
+    private var plannedVsActualSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Planned vs Actual")
+                    .font(.headline).fontWeight(.bold)
+                Spacer()
+                HStack(spacing: 12) {
+                    HStack(spacing: 4) {
+                        Circle().fill(Color.theme.primary).frame(width: 8, height: 8)
+                        Text("Planned").font(.caption2).foregroundStyle(.secondary)
+                    }
+                    HStack(spacing: 4) {
+                        Circle().fill(Color.theme.success).frame(width: 8, height: 8)
+                        Text("Actual").font(.caption2).foregroundStyle(.secondary)
+                    }
+                }
+            }
+            
+            if !viewModel.plannedVsActual.isEmpty {
+                Chart {
+                    ForEach(viewModel.plannedVsActual, id: \.activity) { item in
+                        BarMark(
+                            x: .value("Activity", item.activity),
+                            y: .value("Hours", item.planned)
+                        )
+                        .foregroundStyle(Color.theme.primary.opacity(0.6))
+                        .position(by: .value("Type", "Planned"))
+                        
+                        BarMark(
+                            x: .value("Activity", item.activity),
+                            y: .value("Hours", item.actual)
+                        )
+                        .foregroundStyle(Color.theme.success.opacity(0.8))
+                        .position(by: .value("Type", "Actual"))
+                    }
+                }
+                .frame(height: 200)
+                .chartXAxis {
+                    AxisMarks { value in
+                        AxisValueLabel {
+                            if let name = value.as(String.self) {
+                                Text(name).font(.system(size: 7)).rotationEffect(.degrees(-45))
+                            }
+                        }
+                    }
+                }
+            } else {
+                emptyChartPlaceholder
+            }
+        }
+        .cardStyle()
+        .padding(.horizontal, AppConstants.screenPadding)
+    }
+    
+    // MARK: - Daily Timeline Chart
+    private var dailyTimelineChart: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Today's Timeline")
+                .font(.headline).fontWeight(.bold)
+            
+            if !viewModel.todayTimeline.isEmpty {
+                VStack(spacing: 2) {
+                    ForEach(viewModel.todayTimeline, id: \.activity) { item in
+                        HStack(spacing: 8) {
+                            Text(item.timeRange)
+                                .font(.caption2)
+                                .monospacedDigit()
+                                .foregroundStyle(.secondary)
+                                .frame(width: 80, alignment: .trailing)
+                            
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill((ActivityType(rawValue: item.activity) ?? .work).color)
+                                .frame(height: max(CGFloat(item.durationMinutes) / 60.0 * 24, 16))
+                                .overlay(
+                                    Text(item.activity)
+                                        .font(.system(size: 9))
+                                        .fontWeight(.medium)
+                                        .foregroundStyle(.white)
+                                        .lineLimit(1)
+                                        .padding(.horizontal, 4)
+                                    , alignment: .leading
+                                )
+                            
+                            statusDot(item.status)
+                        }
+                    }
+                }
+            } else {
+                emptyChartPlaceholder
+            }
+        }
+        .cardStyle()
+        .padding(.horizontal, AppConstants.screenPadding)
+    }
+    
+    // MARK: - Activity Heatmap
+    private var activityHeatmap: some View {
+        HeatmapView(data: viewModel.heatmapData, weeks: 4)
+            .padding(.horizontal, AppConstants.screenPadding)
+    }
+    
+    // MARK: - Sleep Consistency
+    private var sleepConsistencySection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Sleep Consistency")
+                .font(.headline).fontWeight(.bold)
+            
+            HStack(spacing: 20) {
+                VStack(spacing: 4) {
+                    Text(viewModel.avgSleepTime)
+                        .font(.title3).fontWeight(.bold)
+                    Text("Avg Sleep")
+                        .font(.caption2).foregroundStyle(.secondary)
+                }
+                
+                VStack(spacing: 4) {
+                    Text(viewModel.avgWakeTime)
+                        .font(.title3).fontWeight(.bold)
+                    Text("Avg Wake")
+                        .font(.caption2).foregroundStyle(.secondary)
+                }
+                
+                VStack(spacing: 4) {
+                    Text(String(format: "%.1fh", viewModel.avgSleepDuration))
+                        .font(.title3).fontWeight(.bold)
+                    Text("Avg Duration")
+                        .font(.caption2).foregroundStyle(.secondary)
+                }
+                
+                VStack(spacing: 4) {
+                    Text("\(Int(viewModel.sleepConsistencyScore))%")
+                        .font(.title3).fontWeight(.bold)
+                        .foregroundStyle(viewModel.sleepConsistencyScore >= 80 ? Color.theme.success : Color.theme.warning)
+                    Text("Consistency")
+                        .font(.caption2).foregroundStyle(.secondary)
+                }
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .cardStyle()
+        .padding(.horizontal, AppConstants.screenPadding)
+    }
+    
     // MARK: - Category Breakdown
     private var categoryBreakdown: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -203,6 +359,14 @@ struct AnalyticsView: View {
         }
         .cardStyle()
         .padding(.horizontal, AppConstants.screenPadding)
+    }
+    
+    private func statusDot(_ status: String) -> some View {
+        Circle()
+            .fill(status == "completed" ? Color.theme.success :
+                    status == "inProgress" ? Color.theme.primary :
+                    status == "skipped" ? Color.theme.textSecondary : Color(.systemGray4))
+            .frame(width: 8, height: 8)
     }
     
     private var emptyChartPlaceholder: some View {

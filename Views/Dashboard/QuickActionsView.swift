@@ -7,6 +7,8 @@ struct QuickActionsView: View {
     var onSkip: () -> Void
     var onPause: () -> Void
     var onResume: () -> Void
+    var onExtend: (() -> Void)?
+    var onAdjustTime: (() -> Void)?
     
     @EnvironmentObject var timerService: TimerService
     
@@ -18,7 +20,7 @@ struct QuickActionsView: View {
                 .foregroundStyle(.secondary)
                 .tracking(1)
             
-            HStack(spacing: 12) {
+            HStack(spacing: 10) {
                 if schedule.completionStatus == .pending {
                     QuickActionButton(
                         icon: "play.fill",
@@ -51,6 +53,16 @@ struct QuickActionsView: View {
                         color: Color.theme.success,
                         action: onCheckOut
                     )
+                    
+                    // Extend button (spec requirement)
+                    if let extend = onExtend {
+                        QuickActionButton(
+                            icon: "plus.circle.fill",
+                            label: "Extend",
+                            color: Color(hex: "AF52DE"),
+                            action: extend
+                        )
+                    }
                 }
                 
                 if schedule.completionStatus != .completed && schedule.completionStatus != .skipped {
@@ -59,6 +71,16 @@ struct QuickActionsView: View {
                         label: "Skip",
                         color: Color.theme.textSecondary,
                         action: onSkip
+                    )
+                }
+                
+                // Manual adjustment for completed activities
+                if schedule.completionStatus == .completed, let adjust = onAdjustTime {
+                    QuickActionButton(
+                        icon: "pencil.circle.fill",
+                        label: "Adjust",
+                        color: Color.theme.primary,
+                        action: adjust
                     )
                 }
             }
