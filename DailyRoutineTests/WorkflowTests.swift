@@ -4,6 +4,7 @@ import SwiftData
 
 // MARK: - 3. WORKFLOW TESTS
 /// Tests complete user workflows: check-in flow, daily routine, calorie tracking, settings
+@MainActor
 final class WorkflowTests: XCTestCase {
     
     var modelContainer: ModelContainer!

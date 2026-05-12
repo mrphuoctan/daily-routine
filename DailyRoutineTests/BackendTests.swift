@@ -4,6 +4,7 @@ import SwiftData
 
 // MARK: - 2. BACKEND / SERVICE TESTS
 /// Tests business logic in Services and ViewModels
+@MainActor
 final class BackendTests: XCTestCase {
     
     var modelContainer: ModelContainer!

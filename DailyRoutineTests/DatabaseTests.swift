@@ -4,6 +4,7 @@ import SwiftData
 
 // MARK: - 1. DATABASE TESTS
 /// Tests SwiftData model creation, relationships, CRUD operations, and data integrity
+@MainActor
 final class DatabaseTests: XCTestCase {
     
     var modelContainer: ModelContainer!

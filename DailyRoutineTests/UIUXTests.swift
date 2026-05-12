@@ -1,4 +1,5 @@
 import XCTest
+import SwiftUI
 @testable import DailyRoutine
 
 // MARK: - 4. UI/UX VALIDATION TESTS
