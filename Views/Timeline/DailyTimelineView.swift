@@ -39,6 +39,7 @@ struct DailyTimelineView: View {
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle(localizationService.localized("tab_timeline"))
+            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear {
             viewModel.loadSchedules(for: selectedDate, modelContext: modelContext)

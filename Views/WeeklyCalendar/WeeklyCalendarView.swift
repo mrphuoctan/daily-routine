@@ -25,6 +25,7 @@ struct WeeklyCalendarView: View {
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle(localizationService.localized("tab_weekly"))
+            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear {
             viewModel.loadWeekData(modelContext: modelContext)

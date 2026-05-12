@@ -38,6 +38,7 @@ struct CalorieView: View {
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle(localizationService.localized("tab_calories"))
+            .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showingAddSheet) {
                 CalorieEntryForm { name, cals, consumed, note in
                     viewModel.addEntry(name: name, calories: cals, isConsumed: consumed, note: note, modelContext: modelContext)

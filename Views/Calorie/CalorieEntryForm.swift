@@ -33,6 +33,7 @@ struct CalorieEntryForm: View {
             }
             .navigationTitle("Add Calorie Entry")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }

@@ -52,6 +52,7 @@ struct ActivityHistoryView: View {
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle("History")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear { viewModel.loadLogs(modelContext: modelContext) }
         .onChange(of: viewModel.selectedPeriod) { _, _ in viewModel.loadLogs(modelContext: modelContext) }

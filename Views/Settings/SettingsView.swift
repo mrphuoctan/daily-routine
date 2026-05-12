@@ -103,6 +103,7 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle(localizationService.localized("tab_settings"))
+            .navigationBarTitleDisplayMode(.inline)
             .alert("Reset All Data?", isPresented: $showingResetAlert) {
                 Button("Cancel", role: .cancel) {}
                 Button("Reset", role: .destructive) {

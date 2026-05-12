@@ -59,6 +59,7 @@ struct DashboardView: View {
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle(localizationService.localized("dashboard_title"))
+            .navigationBarTitleDisplayMode(.inline)
             .refreshable {
                 viewModel.loadData(modelContext: modelContext)
             }

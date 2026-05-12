@@ -77,6 +77,7 @@ struct ActivityDetailView: View {
         .background(Color(.systemGroupedBackground))
         .navigationTitle("Activity Detail")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

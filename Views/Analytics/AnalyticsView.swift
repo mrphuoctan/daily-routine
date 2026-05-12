@@ -37,6 +37,7 @@ struct AnalyticsView: View {
             }
             .background(Color(.systemGroupedBackground))
             .navigationTitle(localizationService.localized("tab_analytics"))
+            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear {
             viewModel.loadAnalytics(modelContext: modelContext)
