@@ -17,7 +17,10 @@ struct DailyRoutineApp: App {
             EvidencePhoto.self,
             ReminderItem.self,
             CalorieEntry.self,
-            StatisticsCache.self
+            StatisticsCache.self,
+            Goal.self,
+            Achievement.self,
+            MoodEntry.self
         ])
         let modelConfiguration = ModelConfiguration(
             schema: schema,

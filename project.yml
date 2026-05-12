@@ -28,6 +28,8 @@ targets:
           - "DailyRoutine.xcodeproj/**"
           - "project.yml"
           - "daily-routine.md"
+          - "build_and_test.sh"
+          - "README.md"
           - "DailyRoutineTests/**"
           - "build/**"
     settings:
@@ -38,6 +40,8 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
         INFOPLIST_KEY_NSCameraUsageDescription: "Take evidence photos for activities"
         INFOPLIST_KEY_NSAppleMusicUsageDescription: "Control music during activities"
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "Voice check-in for hands-free activity tracking"
+        INFOPLIST_KEY_NSSpeechRecognitionUsageDescription: "Recognize voice commands for check-in"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         PRODUCT_BUNDLE_IDENTIFIER: com.mrtun.DailyRoutine
