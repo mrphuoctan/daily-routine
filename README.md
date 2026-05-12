@@ -1,6 +1,21 @@
-# Daily Routine
+<h1 align="center">Daily Routine</h1>
 
-A professional, feature-rich iOS productivity app for personal schedule management, activity tracking, and intelligent wellness monitoring.
+<p align="center">
+  A professional, feature-rich iOS productivity app for personal schedule management, activity tracking, and intelligent wellness monitoring.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Swift-5.9-F05138?style=flat-square&logo=swift&logoColor=white" alt="Swift">
+  <img src="https://img.shields.io/badge/SwiftUI-17+-0071E3?style=flat-square&logo=apple&logoColor=white" alt="SwiftUI">
+  <img src="https://img.shields.io/badge/SwiftData-Offline--First-34C759?style=flat-square&logo=apple&logoColor=white" alt="SwiftData">
+  <img src="https://img.shields.io/badge/iOS-17%2B-000000?style=flat-square&logo=apple&logoColor=white" alt="iOS 17+">
+  <img src="https://img.shields.io/badge/Xcode-15%2B-147EFB?style=flat-square&logo=xcode&logoColor=white" alt="Xcode">
+  <img src="https://img.shields.io/badge/Architecture-MVVM-8B5CF6?style=flat-square" alt="MVVM">
+  <img src="https://img.shields.io/badge/Tests-128%20Passed-34C759?style=flat-square" alt="Tests">
+  <img src="https://img.shields.io/badge/License-All%20Rights%20Reserved-lightgrey?style=flat-square" alt="License">
+</p>
+
+---
 
 Daily Routine is a comprehensive daily life management platform designed to optimize personal productivity through intelligent scheduling, real-time activity tracking, and AI-powered wellness insights.
 
@@ -9,7 +24,7 @@ Daily Routine is a comprehensive daily life management platform designed to opti
 - AI-Powered Insights: Fatigue detection, burnout prediction, and adaptive schedule optimization using local heuristic intelligence.
 - Multi-Language Support: Full localization in English, Vietnamese, and Chinese.
 
-## Key Features
+<h2 align="center">Key Features</h2>
 
 ```
 120 Features
@@ -35,7 +50,7 @@ Daily Routine is a comprehensive daily life management platform designed to opti
 9,597 Lines of Code
 ```
 
-## Core Features
+<h2 align="center">Core Features</h2>
 
 | Category | Features | Description |
 |----------|:--------:|-------------|
@@ -55,7 +70,7 @@ Daily Routine is a comprehensive daily life management platform designed to opti
 | Multi-language | 6 | EN/VI/ZH-Hans, localized notifications, dynamic switching |
 | Database | 8 | SwiftData, offline-first, MVVM, scalable schema |
 
-## System Architecture
+<h2 align="center">System Architecture</h2>
 
 ```mermaid
 graph TD
@@ -116,7 +131,7 @@ graph TD
     AISvc --> SwiftData
 ```
 
-## Database Design
+<h2 align="center">Database Design</h2>
 
 ```mermaid
 erDiagram
@@ -202,7 +217,7 @@ erDiagram
     SCHEDULE_TEMPLATE ||--o{ DAILY_SCHEDULE : "generates"
 ```
 
-## User Workflow
+<h2 align="center">User Workflow</h2>
 
 ```mermaid
 sequenceDiagram
@@ -242,7 +257,7 @@ sequenceDiagram
     DB-->>Dashboard: Completion rate, focus score, streaks
 ```
 
-## Tech Stack
+<h2 align="center">Tech Stack</h2>
 
 | Layer | Technology |
 |-------|-----------|
@@ -257,10 +272,10 @@ sequenceDiagram
 | Testing | XCTest (128 tests) |
 | Localization | EN / VI / ZH-Hans |
 
-## Test Results
+<h2 align="center">Test Results</h2>
 
 ```
-128 tests — 0 failures — 0.573s
+128 tests -- 0 failures -- 0.573s
 ```
 
 | Suite | Tests | Coverage |
@@ -272,7 +287,7 @@ sequenceDiagram
 | WorkflowTests | 8 | E2E check-in/out, calorie tracking, settings |
 | LogicTests | 35 | Duration math, AI algorithms, goal logic |
 
-## Getting Started
+<h2 align="center">Getting Started</h2>
 
 ### 1. Prerequisites
 - macOS 14+ (Sonoma)
@@ -318,7 +333,7 @@ Connect your iPhone via USB, then:
 # First time: Settings -> General -> VPN & Device Management -> Trust
 ```
 
-## Project Structure
+<h2 align="center">Project Structure</h2>
 
 ```
 daily-routine/
@@ -355,10 +370,10 @@ daily-routine/
 └── Localization/                  # EN / VI / ZH-Hans
 ```
 
-## Support & Contact
+<h2 align="center">Support & Contact</h2>
 
 For inquiries, feedback, or collaboration opportunities, contact the developer.
 
 Author & Credits: MrPhuocTan - [phtan.working@gmail.com](mailto:phtan.working@gmail.com) - 097.201.2901
 
-Daily Routine - © 2026 MrPhuocTan. All rights reserved.
+Daily Routine - (c) 2026 MrPhuocTan. All rights reserved.
