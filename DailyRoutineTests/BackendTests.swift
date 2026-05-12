@@ -21,7 +21,10 @@ final class BackendTests: XCTestCase {
             EvidencePhoto.self,
             ReminderItem.self,
             CalorieEntry.self,
-            StatisticsCache.self
+            StatisticsCache.self,
+            Goal.self,
+            Achievement.self,
+            MoodEntry.self
         ])
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         modelContainer = try! ModelContainer(for: schema, configurations: [config])

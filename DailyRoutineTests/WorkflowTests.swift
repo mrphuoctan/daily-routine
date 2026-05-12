@@ -15,7 +15,8 @@ final class WorkflowTests: XCTestCase {
         let schema = Schema([
             ActivityCategory.self, ScheduleTemplate.self, DailySchedule.self,
             ActivityLog.self, CheckInRecord.self, EvidencePhoto.self,
-            ReminderItem.self, CalorieEntry.self, StatisticsCache.self
+            ReminderItem.self, CalorieEntry.self, StatisticsCache.self,
+            Goal.self, Achievement.self, MoodEntry.self
         ])
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         modelContainer = try! ModelContainer(for: schema, configurations: [config])
