@@ -29,10 +29,15 @@ class NotificationService {
         minutesBefore: Int = 0
     ) {
         let content = UNMutableNotificationContent()
-        content.title = title
-        content.body = body
+        // Use localized text if available
+        let locService = LocalizationService.shared
+        content.title = locService.localizedNotification(title)
+        content.body = locService.localizedNotification(body)
         content.sound = .default
         content.interruptionLevel = .timeSensitive
+        
+        // Add snooze action category
+        content.categoryIdentifier = "ACTIVITY_REMINDER"
         
         var dateComponents = DateComponents()
         var totalMinutes = hour * 60 + minute - minutesBefore
@@ -52,6 +57,29 @@ class NotificationService {
                 print("Failed to schedule notification: \(error)")
             }
         }
+    }
+    
+    // MARK: - Register Notification Categories (snooze action)
+    func registerCategories() {
+        let snoozeAction = UNNotificationAction(
+            identifier: "SNOOZE_ACTION",
+            title: LocalizationService.shared.localizedNotification("Snooze 5m"),
+            options: []
+        )
+        let completeAction = UNNotificationAction(
+            identifier: "COMPLETE_ACTION",
+            title: LocalizationService.shared.localizedNotification("Done"),
+            options: .destructive
+        )
+        
+        let category = UNNotificationCategory(
+            identifier: "ACTIVITY_REMINDER",
+            actions: [snoozeAction, completeAction],
+            intentIdentifiers: [],
+            options: []
+        )
+        
+        UNUserNotificationCenter.current().setNotificationCategories([category])
     }
     
     // MARK: - Schedule from Reminder

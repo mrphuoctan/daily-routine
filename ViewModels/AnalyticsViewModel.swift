@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import SwiftData
 
 // MARK: - Data structs for charts
@@ -40,6 +41,12 @@ class AnalyticsViewModel {
     var avgSleepDuration: Double = 0
     var sleepConsistencyScore: Double = 0
     
+    // Burnout Detection
+    var burnoutRisk: BurnoutLevel = .low
+    var burnoutFactors: [String] = []
+    var dailyWorkHours: Double = 0
+    var weeklyWorkHours: Double = 0
+    
     // Weekly/Monthly chart data
     var weeklyChartEntries: [(category: String, hours: Double, color: String)] = []
     var monthlyChartEntries: [(category: String, hours: Double, color: String)] = []
@@ -54,6 +61,7 @@ class AnalyticsViewModel {
         loadTodayTimeline(modelContext: modelContext)
         loadHeatmapData(modelContext: modelContext)
         loadSleepConsistency(modelContext: modelContext)
+        detectBurnoutRisk(modelContext: modelContext)
     }
     
     private func loadWeeklyData(modelContext: ModelContext) {
@@ -322,6 +330,102 @@ class AnalyticsViewModel {
             sleepConsistencyScore = max(0, min(100, (1.0 - stdDev / 60.0) * 100))
         } else {
             sleepConsistencyScore = 100
+        }
+    }
+    
+    // MARK: - Burnout Risk Detection
+    private func detectBurnoutRisk(modelContext: ModelContext) {
+        var factors: [String] = []
+        var riskScore: Double = 0
+        
+        // Factor 1: Weekly work hours (Work + Freelancer) > 60h = high risk
+        let workCategories = ["Work", "Freelancer", "Work / Lunch"]
+        let weeklyWork = workCategories.reduce(0.0) { $0 + (weeklyData[$1] ?? 0) }
+        weeklyWorkHours = weeklyWork
+        
+        if weeklyWork > 70 {
+            riskScore += 40
+            factors.append("⚠️ Extreme work: \(Int(weeklyWork))h/week (>70h)")
+        } else if weeklyWork > 60 {
+            riskScore += 25
+            factors.append("⚠️ Heavy work: \(Int(weeklyWork))h/week (>60h)")
+        } else if weeklyWork > 50 {
+            riskScore += 10
+            factors.append("Work hours elevated: \(Int(weeklyWork))h/week")
+        }
+        
+        // Factor 2: Sleep deprivation (<6h average)
+        if avgSleepDuration > 0 && avgSleepDuration < 5 {
+            riskScore += 30
+            factors.append("⚠️ Severe sleep deprivation: \(String(format: "%.1f", avgSleepDuration))h avg")
+        } else if avgSleepDuration > 0 && avgSleepDuration < 6 {
+            riskScore += 15
+            factors.append("Sleep deficit: \(String(format: "%.1f", avgSleepDuration))h avg")
+        }
+        
+        // Factor 3: Low completion rate (<50%)
+        if completionRate < 0.3 {
+            riskScore += 20
+            factors.append("Very low completion: \(Int(completionRate * 100))%")
+        } else if completionRate < 0.5 {
+            riskScore += 10
+            factors.append("Low completion: \(Int(completionRate * 100))%")
+        }
+        
+        // Factor 4: Sleep inconsistency
+        if sleepConsistencyScore < 50 {
+            riskScore += 15
+            factors.append("Irregular sleep pattern: \(Int(sleepConsistencyScore))% consistency")
+        }
+        
+        // Factor 5: No rest/relax time
+        let relaxHours = (weeklyData["Console / Relax"] ?? 0) + (weeklyData["Free Time"] ?? 0) + (weeklyData["Break"] ?? 0)
+        if relaxHours < 5 {
+            riskScore += 15
+            factors.append("Insufficient rest: only \(String(format: "%.1f", relaxHours))h/week")
+        }
+        
+        // Determine risk level
+        if riskScore >= 60 {
+            burnoutRisk = .critical
+        } else if riskScore >= 40 {
+            burnoutRisk = .high
+        } else if riskScore >= 20 {
+            burnoutRisk = .moderate
+        } else {
+            burnoutRisk = .low
+        }
+        
+        burnoutFactors = factors
+        
+        // Calculate daily work hours from today's data
+        let todayWork = todayTimeline.filter { workCategories.contains($0.activity) }
+        dailyWorkHours = Double(todayWork.reduce(0) { $0 + $1.durationMinutes }) / 60.0
+    }
+}
+
+// MARK: - Burnout Level
+enum BurnoutLevel: String {
+    case low = "Low"
+    case moderate = "Moderate"
+    case high = "High"
+    case critical = "Critical"
+    
+    var color: Color {
+        switch self {
+        case .low: return Color(hex: "34C759")
+        case .moderate: return Color(hex: "FF9500")
+        case .high: return Color(hex: "FF3B30")
+        case .critical: return Color(hex: "AF52DE")
+        }
+    }
+    
+    var icon: String {
+        switch self {
+        case .low: return "heart.fill"
+        case .moderate: return "exclamationmark.triangle"
+        case .high: return "exclamationmark.triangle.fill"
+        case .critical: return "flame.fill"
         }
     }
 }

@@ -49,6 +49,14 @@ class LocalizationService: ObservableObject {
         return NSLocalizedString(key, bundle: bundle, comment: "")
     }
     
+    /// Localize notification text - falls back to original string if no key found
+    func localizedNotification(_ text: String) -> String {
+        let key = "notif_\(text.lowercased().replacingOccurrences(of: " ", with: "_"))"
+        let result = localized(key)
+        // If key not found (returns same key), use original text
+        return result == key ? text : result
+    }
+    
     var locale: Locale {
         currentLanguage.locale
     }

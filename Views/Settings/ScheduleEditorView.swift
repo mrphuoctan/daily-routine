@@ -8,6 +8,7 @@ struct ScheduleEditorView: View {
     @State private var selectedDay: DayOfWeek = .monday
     @State private var showingAddSheet = false
     @State private var editingTemplate: ScheduleTemplate?
+    @State private var conflictMessage: String?
     
     var body: some View {
         VStack(spacing: 0) {
@@ -31,6 +32,28 @@ struct ScheduleEditorView: View {
                 }
                 .padding(.horizontal, AppConstants.screenPadding)
                 .padding(.vertical, 12)
+            }
+            
+            // Conflict warning
+            if let conflict = conflictMessage {
+                HStack(spacing: 8) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.white)
+                    Text(conflict)
+                        .font(.caption)
+                        .foregroundStyle(.white)
+                        .lineLimit(2)
+                    Spacer()
+                    Button {
+                        withAnimation { conflictMessage = nil }
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(.white.opacity(0.7))
+                    }
+                }
+                .padding(12)
+                .background(Color.theme.error)
+                .transition(.move(edge: .top).combined(with: .opacity))
             }
             
             // Templates for selected day
@@ -57,12 +80,27 @@ struct ScheduleEditorView: View {
                             
                             Spacer()
                             
+                            // Conflict indicator
+                            if hasConflict(template) {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.theme.error)
+                            }
+                            
                             Image(systemName: template.activity.icon)
                                 .foregroundStyle(template.activity.color)
                         }
                     }
                 }
                 .onDelete(perform: deleteTemplates)
+                
+                if filteredTemplates.isEmpty {
+                    ContentUnavailableView {
+                        Label("No Schedule", systemImage: "calendar.badge.plus")
+                    } description: {
+                        Text("Tap + to add activities for \(selectedDay.shortName)")
+                    }
+                }
             }
             .listStyle(.plain)
         }
@@ -77,24 +115,33 @@ struct ScheduleEditorView: View {
         }
         .sheet(isPresented: $showingAddSheet) {
             TemplateFormView(day: selectedDay) { template in
-                modelContext.insert(template)
-                try? modelContext.save()
-                loadTemplates()
+                if let conflict = detectConflict(template, excluding: nil) {
+                    withAnimation { conflictMessage = conflict }
+                } else {
+                    modelContext.insert(template)
+                    try? modelContext.save()
+                    loadTemplates()
+                }
             }
         }
         .sheet(item: $editingTemplate) { template in
             TemplateFormView(day: selectedDay, existing: template) { updated in
-                template.activityType = updated.activityType
-                template.startHour = updated.startHour
-                template.startMinute = updated.startMinute
-                template.endHour = updated.endHour
-                template.endMinute = updated.endMinute
-                try? modelContext.save()
-                loadTemplates()
+                if let conflict = detectConflict(updated, excluding: template.id) {
+                    withAnimation { conflictMessage = conflict }
+                } else {
+                    template.activityType = updated.activityType
+                    template.startHour = updated.startHour
+                    template.startMinute = updated.startMinute
+                    template.endHour = updated.endHour
+                    template.endMinute = updated.endMinute
+                    try? modelContext.save()
+                    loadTemplates()
+                    withAnimation { conflictMessage = nil }
+                }
             }
         }
-        .onAppear { loadTemplates() }
-        .onChange(of: selectedDay) { _, _ in }
+        .onAppear { loadTemplates(); checkConflicts() }
+        .onChange(of: selectedDay) { _, _ in checkConflicts() }
     }
     
     private var filteredTemplates: [ScheduleTemplate] {
@@ -114,6 +161,51 @@ struct ScheduleEditorView: View {
         }
         try? modelContext.save()
         loadTemplates()
+    }
+    
+    // MARK: - Conflict Detection
+    private func detectConflict(_ template: ScheduleTemplate, excluding: UUID?) -> String? {
+        let startMin = template.startHour * 60 + template.startMinute
+        var endMin = template.endHour * 60 + template.endMinute
+        if endMin <= startMin { endMin += 24 * 60 }
+        
+        for existing in filteredTemplates {
+            if let excl = excluding, existing.id == excl { continue }
+            
+            let eStart = existing.startHour * 60 + existing.startMinute
+            var eEnd = existing.endHour * 60 + existing.endMinute
+            if eEnd <= eStart { eEnd += 24 * 60 }
+            
+            // Overlap check
+            if startMin < eEnd && endMin > eStart {
+                return "Conflict: \(template.activity.rawValue) (\(template.startTimeString)-\(template.endTimeString)) overlaps with \(existing.activity.rawValue) (\(existing.startTimeString)-\(existing.endTimeString))"
+            }
+        }
+        return nil
+    }
+    
+    private func hasConflict(_ template: ScheduleTemplate) -> Bool {
+        let startMin = template.startHour * 60 + template.startMinute
+        var endMin = template.endHour * 60 + template.endMinute
+        if endMin <= startMin { endMin += 24 * 60 }
+        
+        for other in filteredTemplates where other.id != template.id {
+            let oStart = other.startHour * 60 + other.startMinute
+            var oEnd = other.endHour * 60 + other.endMinute
+            if oEnd <= oStart { oEnd += 24 * 60 }
+            
+            if startMin < oEnd && endMin > oStart { return true }
+        }
+        return false
+    }
+    
+    private func checkConflicts() {
+        let conflicts = filteredTemplates.filter { hasConflict($0) }
+        if let first = conflicts.first {
+            conflictMessage = "⚠️ \(conflicts.count) schedule conflict(s) detected on \(selectedDay.shortName)"
+        } else {
+            conflictMessage = nil
+        }
     }
 }
 

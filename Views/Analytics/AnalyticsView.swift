@@ -42,6 +42,9 @@ struct AnalyticsView: View {
                     // Sleep Consistency
                     sleepConsistencySection
                     
+                    // Burnout Risk
+                    burnoutRiskSection
+                    
                     // Category Breakdown
                     categoryBreakdown
                 }
@@ -307,6 +310,94 @@ struct AnalyticsView: View {
         }
         .cardStyle()
         .padding(.horizontal, AppConstants.screenPadding)
+    }
+    
+    // MARK: - Burnout Risk
+    private var burnoutRiskSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Burnout Risk")
+                    .font(.headline).fontWeight(.bold)
+                Spacer()
+                HStack(spacing: 6) {
+                    Image(systemName: viewModel.burnoutRisk.icon)
+                        .foregroundStyle(viewModel.burnoutRisk.color)
+                    Text(viewModel.burnoutRisk.rawValue)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(viewModel.burnoutRisk.color)
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(viewModel.burnoutRisk.color.opacity(0.12))
+                .clipShape(Capsule())
+            }
+            
+            // Risk bar
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color(.systemGray5))
+                        .frame(height: 8)
+                    
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(viewModel.burnoutRisk.color)
+                        .frame(width: geo.size.width * riskPercent, height: 8)
+                }
+            }
+            .frame(height: 8)
+            
+            // Work stats
+            HStack(spacing: 16) {
+                VStack(spacing: 2) {
+                    Text(String(format: "%.1fh", viewModel.dailyWorkHours))
+                        .font(.subheadline).fontWeight(.bold)
+                    Text("Today")
+                        .font(.caption2).foregroundStyle(.secondary)
+                }
+                VStack(spacing: 2) {
+                    Text(String(format: "%.0fh", viewModel.weeklyWorkHours))
+                        .font(.subheadline).fontWeight(.bold)
+                    Text("This Week")
+                        .font(.caption2).foregroundStyle(.secondary)
+                }
+            }
+            
+            // Factors
+            if !viewModel.burnoutFactors.isEmpty {
+                VStack(alignment: .leading, spacing: 6) {
+                    ForEach(viewModel.burnoutFactors, id: \.self) { factor in
+                        HStack(spacing: 6) {
+                            Circle()
+                                .fill(viewModel.burnoutRisk.color)
+                                .frame(width: 5, height: 5)
+                            Text(factor)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+            } else {
+                HStack(spacing: 6) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(Color.theme.success)
+                    Text("No burnout risk factors detected")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+        .cardStyle()
+        .padding(.horizontal, AppConstants.screenPadding)
+    }
+    
+    private var riskPercent: Double {
+        switch viewModel.burnoutRisk {
+        case .low: return 0.15
+        case .moderate: return 0.45
+        case .high: return 0.75
+        case .critical: return 1.0
+        }
     }
     
     // MARK: - Category Breakdown

@@ -74,6 +74,13 @@ struct MoreView: View {
                 }
                 
                 NavigationLink {
+                    MonthlyOverviewView()
+                } label: {
+                    Label("Monthly Overview", systemImage: "calendar.badge.clock")
+                        .foregroundStyle(Color(hex: "AF52DE"))
+                }
+                
+                NavigationLink {
                     SettingsView()
                 } label: {
                     Label(localizationService.localized("tab_settings"), systemImage: "gearshape.fill")

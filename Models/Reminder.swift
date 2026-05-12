@@ -14,6 +14,9 @@ final class ReminderItem {
     var isWeekendOnly: Bool
     var minutesBefore: Int // e.g., 10 minutes before
     var createdAt: Date
+    var lastTriggeredAt: Date?
+    var completedCount: Int
+    var snoozedCount: Int
     
     init(
         title: String,
@@ -37,6 +40,9 @@ final class ReminderItem {
         self.isWeekendOnly = isWeekendOnly
         self.minutesBefore = minutesBefore
         self.createdAt = Date()
+        self.lastTriggeredAt = nil
+        self.completedCount = 0
+        self.snoozedCount = 0
     }
     
     var activity: ActivityType {
@@ -45,5 +51,15 @@ final class ReminderItem {
     
     var timeString: String {
         String(format: "%02d:%02d", hour, minute)
+    }
+    
+    func markCompleted() {
+        completedCount += 1
+        lastTriggeredAt = Date()
+    }
+    
+    func markSnoozed() {
+        snoozedCount += 1
+        lastTriggeredAt = Date()
     }
 }
