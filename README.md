@@ -25,21 +25,14 @@ Daily Routine is a comprehensive daily life management platform built with Swift
 
 <h2 align="center">Key Features</h2>
 
-```
-120 features across 15 categories
-```
-
-```
-12 SwiftData models with offline-first persistence
-```
-
-```
-7 AI-powered analysis algorithms
-```
-
-```
-3 languages (EN / VI / ZH-Hans)
-```
+- 120 features across 15 categories
+- 12 SwiftData models with offline-first persistence
+- 7 AI-powered analysis algorithms (fatigue, burnout, schedule optimization)
+- Pomodoro focus timer, goal tracking, achievement badges, mood tracking
+- Voice check-in with speech recognition
+- PDF report export with share sheet
+- Apple Ecosystem service layers (Watch, iCloud, Siri, HealthKit, LiveActivity)
+- 3 languages (EN / VI / ZH-Hans)
 
 <h2 align="center">System Architecture</h2>
 
