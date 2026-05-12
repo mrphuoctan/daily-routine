@@ -43,3 +43,8 @@ fastlane/test_output
 # Local
 .env
 *.log
+
+# Non-source files (keep locally only)
+DailyRoutineTests/
+daily-routine.md
+build_and_test.sh
