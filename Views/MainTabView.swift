@@ -5,43 +5,52 @@ struct MainTabView: View {
     @EnvironmentObject var localizationService: LocalizationService
     
     var body: some View {
-        TabView(selection: $selectedTab) {
-            DashboardView()
-                .tabItem {
-                    Image(systemName: "house.fill")
-                    Text(localizationService.localized("tab_dashboard"))
-                }
-                .tag(0)
+        ZStack(alignment: .bottom) {
+            TabView(selection: $selectedTab) {
+                DashboardView()
+                    .tabItem {
+                        Image(systemName: "house.fill")
+                        Text(localizationService.localized("tab_dashboard"))
+                    }
+                    .tag(0)
+                
+                DailyTimelineView()
+                    .tabItem {
+                        Image(systemName: "clock.fill")
+                        Text(localizationService.localized("tab_timeline"))
+                    }
+                    .tag(1)
+                
+                WeeklyCalendarView()
+                    .tabItem {
+                        Image(systemName: "calendar")
+                        Text(localizationService.localized("tab_weekly"))
+                    }
+                    .tag(2)
+                
+                AnalyticsView()
+                    .tabItem {
+                        Image(systemName: "chart.bar.fill")
+                        Text(localizationService.localized("tab_analytics"))
+                    }
+                    .tag(3)
+                
+                MoreView()
+                    .tabItem {
+                        Image(systemName: "ellipsis.circle.fill")
+                        Text(localizationService.localized("tab_more"))
+                    }
+                    .tag(4)
+            }
+            .tint(Color.theme.primary)
             
-            DailyTimelineView()
-                .tabItem {
-                    Image(systemName: "clock.fill")
-                    Text(localizationService.localized("tab_timeline"))
-                }
-                .tag(1)
-            
-            WeeklyCalendarView()
-                .tabItem {
-                    Image(systemName: "calendar")
-                    Text(localizationService.localized("tab_weekly"))
-                }
-                .tag(2)
-            
-            AnalyticsView()
-                .tabItem {
-                    Image(systemName: "chart.bar.fill")
-                    Text(localizationService.localized("tab_analytics"))
-                }
-                .tag(3)
-            
-            MoreView()
-                .tabItem {
-                    Image(systemName: "ellipsis.circle.fill")
-                    Text(localizationService.localized("tab_more"))
-                }
-                .tag(4)
+            // Floating Mini Player above tab bar
+            VStack {
+                Spacer()
+                MiniPlayerView()
+                    .padding(.bottom, 50) // above tab bar
+            }
         }
-        .tint(Color.theme.primary)
     }
 }
 
@@ -78,6 +87,13 @@ struct MoreView: View {
                 } label: {
                     Label("Monthly Overview", systemImage: "calendar.badge.clock")
                         .foregroundStyle(Color(hex: "AF52DE"))
+                }
+                
+                NavigationLink {
+                    EvidenceGalleryView()
+                } label: {
+                    Label("Evidence Gallery", systemImage: "photo.on.rectangle.angled")
+                        .foregroundStyle(Color(hex: "FF6B35"))
                 }
                 
                 NavigationLink {

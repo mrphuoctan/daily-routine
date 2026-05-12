@@ -37,6 +37,10 @@ class DashboardViewModel {
     func checkIn(schedule: DailySchedule) {
         schedule.completionStatus = .inProgress
         schedule.activityLog?.checkIn()
+        
+        // Auto-set focus music mode based on activity
+        MediaControlService.shared.setModeForActivity(schedule.activity)
+        MediaControlService.shared.show()
     }
     
     func checkOut(schedule: DailySchedule) {
